@@ -1,0 +1,93 @@
+<!-- 질문 폼 템플릿( base.html 템플릿 상속함)-->
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="main">
+  <div class="container">
+  <!-- 섹션 시작 -->
+  <section class="section">
+   <div class="row">
+    <div class="col-lg-6">
+    <!--질문 등록-->
+    <div class="card">
+     <div class="card-body">
+      <form method="post" class="post-form my-3">
+        {{ form.csrf_token }}
+        <!--오류표시 시작-->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!--오류표시 끝-->
+        <div class="col-lg-15">
+         <form method="post" class="my-3" >
+         <div class="col-lg-13">
+            <div class="card-body">
+                <h3 class="my-3 pb-2">수정하기</h3>
+                {{ form.subject.label }}
+            <!--데이터가 공백일 때 오류 표시 + 다른 데이터는 초기화  하지 않음-->
+              <textarea class="form-control" name="subject" id="subject" rows="1" value={{ form.subject() }}</textarea>
+            </div>
+            <div class="card-body">
+                {{ form.content.label }}
+                <textarea class="form-control" name="content" id="content" rows="10" value={{ form.content() }}</textarea>
+
+        {% if g.user %}<br>
+        <div class="row">
+            <div class="col-lg-3">
+            <button type="submit" class = "btn btn-secondary">저장하기</button>
+            </div>
+            <div class="col-lg-3">
+            <a class="btn btn-primary" onclick="history.back()">뒤로가기</a>
+            </div>
+        {% endif %}
+        </div>
+         </div>
+        </div>
+      </form>
+            <div class="card-body">
+                <h6 class="border-center py-2"> 태그 :
+                 <textarea class="form-control" name="tags" id="tags" rows="1" value={{ form.tags() }}</textarea>
+                  </h6>
+            </div>
+    </div>
+   </div>
+  </div>
+ <div class="col-lg-6">
+  <div class="card-body">
+    <div class="card-title">
+    </div>
+  </section>
+ </div>
+</main>
+
+    <script>
+      const speakBtn = document.getElementById('speak-btn');
+      speakBtn.addEventListener('click', () => {
+        const text = document.getElementById('text').value;
+        const lang = document.getElementById('lang').value;
+        const url = '/api/tts';
+        const body = JSON.stringify({text, lang});
+        fetch(url, {
+          method: 'POST',
+          body: body,
+          headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => console.log(data));
+      });
+    </script>
+<script>
+function copyTextarea() {
+  var content = document.getElementById("content").value;
+  document.getElementById("text").value = content;
+}
+</script>
+{% endblock %}

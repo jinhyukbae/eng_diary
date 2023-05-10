@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="main">
+<!-- notice_list 페이지-->
+
+<div class="container my-1 justify-content-end">
+  <div class="card mb-3">
+    <div class="container my-3">
+    <!--카드 형태-->
+    <!-- Card with an image on bottom -->
+    {% if notice_list %}
+    {% for notice in notice_list %}
+  <div>
+  <div class="col-lg-3">
+  </div>
+     <div class="card">
+       <h4 class="card-body" style="white-space : pre-line">{{ notice.subject }}</h4>
+       <div class="card-body" style="white-space : pre-line"><h6>{{ notice.content }}</h6></div>
+   </div>
+  </div>
+    {% endfor %}
+    {% endif %}
+</div>
+</div>
+<!-- End Card with an image on bottom -->
+</div>
+</main>
+  <!-- End #main -->
+{% endblock %}

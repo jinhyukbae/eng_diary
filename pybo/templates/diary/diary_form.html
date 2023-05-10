@@ -1,0 +1,61 @@
+<!-- 질문 폼 템플릿( base.html 템플릿 상속함)-->
+{% extends 'base.html' %}
+{% block content %}
+
+<main id="main" class="main">
+    <div class="container">
+      <div class="sharedcard-pagetitle">
+      <h1 class="text-center my-5">Step#1 영어 일기와 그래머 체크하기</div></h1>
+      <h4 class="my-7 pb-2">오늘도 힘차게! 일기를 써볼까요</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <form method="POST" action="{{ url_for('grammar.correct_grammar_api') }}">
+            <div class="form-group">
+              <div class="card-body">
+                <h3 class="my-3 pb-2" class="card-body">제목</h3>
+                <textarea type="text" class="form-control" name="subject" id="subject" rows="1"
+                          value="{{ 'form.subject()' }}"></textarea>
+              </div>
+              <div class="card-body">
+              <h3 class="my-3 pb-2" class="card-body">내용</h3>
+              <textarea type="text" class="form-control" name="sentence" id="sentence" rows="12"
+                        value="{{ 'form.content()' }}"></textarea>
+              </div>
+              <br>
+             {% if g.user %}
+             <button type="submit" name="review" value="review" class="btn btn-primary">저장+검토하기</button>
+             {% else %}
+             <button type="submit" name="review_0" value="review_0" class="btn btn-primary">검토하기</button>
+             {% endif %}
+            </div>
+        </div>
+        {% if sentence %}
+        {% if highlighted_diff %}
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Correction</div>
+              <div class="card-body">
+                <h5 class="card-title">Before</h5>
+                <p class="card-text" color="">{{ sentence }}</p>
+                <h5 class="card-title">After</h5>
+                <textarea class="form-control" name="sentence" id="sentence" rows="6">{{ corrected_sentence }}
+                </textarea>
+                <p class="card-text">{{ highlighted_diff }}</p>
+                <div class="row">
+                  <h6 class="card-body">T5모델 수행 시간 :
+                    <input type="text" value=" {{execution_time }}">
+                  <h6 class="card-body">태그모델 저장 시간 :
+                    <input type="text" value=" {{execution_time2 }}">
+                  <h6 class="card-body">DB 저장시간 :
+                    <input type="text" value=" {{execution_time3 }}">
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endif %}
+          </form>
+</main>
+
+{% endblock %}

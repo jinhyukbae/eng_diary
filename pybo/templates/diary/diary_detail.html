@@ -1,0 +1,186 @@
+<!--먹고 쓰고 자고 일기_초안1 페이지 추가 -->
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="main">
+  <!--질문 상세 화면 제작(detail)-->
+  <div class="container my-3">
+    <!--flash 오류-->
+      {% for message in get_flashed_messages() %}
+      <div class="alert alert-danger" role="alert">
+          {{ message }}
+      </div>
+      {% endfor %}
+        <!--일기 제목-->
+        <h2 class="border-bottom py-2">{{ diary.subject }}</h2>
+          <div class="card my-3">
+            <div class="card-body">
+              <form action="{{ url_for('diary.get_paraphrase', diary_id=diary.id) }}" method="POST">
+                  <textarea name="input_text" id="input_text" readonly style="width: 100%; min-height: 9em;">{{ diary.content }}
+
+
+                  </textarea>
+
+
+                  <button class="btn btn-secondary" type="submit" name="submit" id="submit">이음동의어 확인하기</button>
+                  <button class="btn btn-light" type="button" name="exit" id="exit">닫기</button>
+              </form>
+            <!--paraphrasing 기능-->
+                <div class="card-body" id="paraphrase">
+                 {% if input_text %}
+                    <h4>▶  Paraphrase 기능</h4>
+                    <h6 class="border-center py-2">  비슷하지만 다른 표현을 알아볼까요?</h6>
+                  <ul>
+                    {% for paraphrase in paraphrases %}
+                      <li>{{ paraphrase }}</li>
+                    {% endfor %}
+                  </ul>
+                    <h6 class="py-2">Paraphrase 모델 수행 시간
+                    <input type="text" value="{{ execution_time }}">
+                    </h6>
+                {% endif %}
+                </div>
+                <div class="d-flex justify-content-end">
+                    {% if diary.modify_date %}
+                    <div class="badge bg-light text-dark p-2 text-start mx-3">
+                        <div class="mb-2">수정일자</div>
+                        <div>{{ diary.modify_date|datetime }}</div>
+                    </div>
+                    {% endif %}
+                <div class="badge bg-light text-dark p-2 text-start">
+                  <div class="mb-2">{{ diary.user.username }}</div>
+                  <div>{{ diary.create_date|datetime }}</div>
+                    </div>
+                </div>
+                <!--일기 수정기능-->
+               <div class="my-3">
+                 <a href="javascript:void(0)" class="recommend btn btn-sm btn-outline-secondary"
+                    data-uri="{{ url_for('diary.vote', diary_id=diary.id) }}">
+                    <i class="bi bi-heart"></i>
+                 </a>
+                 {% if g.user == diary.user %}
+                 <a href="{{ url_for('diary.modify', diary_id=diary.id) }}"
+                 class="btn btn-sm btn-outline-secondary">수정</a>
+                 <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                    data-uri="{{ url_for('diary.delete', diary_id=diary.id) }}">삭제</a>
+                 {% endif %}
+              </div>
+                <div class="mb-2">
+                  <h6 class="border-center py-2" name="tags" id="tags"> 태그 :
+                   {% for tag in diary.tags.split(',') %}
+                    #{{ tag.strip() }}
+                    {% endfor %}
+                  </h6>
+                </div>
+               <br>
+              <span>좋아요 {{ diary.voter|length }}개</span>
+            </div>
+        </div>
+      </div>
+
+<!--답변 목록-->
+     <div class="container my-3">
+       <h5 class="border-bottom py-2">댓글 목록</h5>
+        <div class="card my-3">
+          <div class="card-body">
+              <h6 class="border-bottom my-3 py-2">{{ diary.answer_set|length }} 개의 댓글이 있습니다.</h6>
+              <div>
+                {% for answer in diary.answer_set %}
+                 <a id="answer_{{ answer.id }}"></a>
+                 <div class="card-body">{{ answer.content|markdown  }}</div>
+                  <div class="d-flex justify-content-end">
+                      {% if answer.modify_date %}
+                      <div class="badge bg-light text-dark p-2 text-start mx-3">
+                          <div class="mb-2">수정일자</div>
+                          <div>{{ answer.modify_date|datetime }}</div>
+                      </div>
+                      {% endif %}
+                    <div class="badge bg-light text-dark p-2 text-start">
+                        <div class="mb-2">{{ answer.user.username }}</div>
+                      <div>{{ answer.create_date|datetime }}</div>
+                    </div>
+                  </div>
+                  {% if g.user  %}
+                  <div class="my-3">
+                    <a href="javascript:void(0)" data-uri="{{ url_for('answer.vote', answer_id = answer.id) }}"
+                      class="recommend btn btn-sm btn-outline-secondary">
+                      <i class="bi bi-heart"></i>
+                    </a>
+                     {% else %}
+                      <i class="bi bi-heart"></i>
+                     {% endif %}
+                      {% if g.user == answer.user %}
+                      <a href="{{ url_for('answer.modify', answer_id = answer.id) }}"
+                      class = "btn btn-sm btn-outline-secondary">수정</a>
+                      <a href="#" class="delete btn btn-sm btn-outline-secondary "
+                      data-uri="{{ url_for('answer.delete', answer_id=answer.id) }}">삭제</a>
+                      {% endif %}
+                  </div><span>좋아요 {{ answer.voter|length }}개</span>
+                  {% endfor %}
+                  <br>
+              </div>
+          <form action="{{ url_for('answer.create', diary_id = diary.id) }}" method="post" class="my-3">
+           {{ form.csrf_token }}
+            <!--오류표시 (diary_form 다를 것이 없음) 시작-->
+            {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for field, errors in form.errors.items() %}
+                <strong>{{ form[field].label }}</strong>
+                <ul>
+                    {% for error in errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endfor %}
+        </div>
+        {% endif %}
+        <!--오류표시 끝-->
+      </div>
+    </div>
+        <div class="card my-3">
+          <div class="card-body">
+            <div class="mb-3">
+                <textarea name="content" id="content" cols="165%" rows="3" placeholder="댓글 달기"></textarea>
+            </div>
+              {% if g.user %}
+                <input type="submit" value="등록">
+              {% else %}
+              {% endif %}
+        </form>
+      </div>
+   </div>
+</main>
+  <!-- End #main -->
+{% endblock %}
+{% block script %}
+
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+<script type="text/javascript">
+const recommend_elements = document.getElementsByClassName("recommend");
+Array.from(recommend_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("이 글에 좋아요를 누르시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+
+<!--닫기 기능-->
+var exitBtn = document.getElementById('exit');
+var resultsDiv = document.getElementById('paraphrase');
+exitBtn.addEventListener('click', function() {
+    resultsDiv.style.display = 'none';
+});
+</script>
+
+
+
+{% endblock %}

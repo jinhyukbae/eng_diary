@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TTS</title>
+  </head>
+  <body>
+    <h1>영어 읽어주는 남자</h1>
+    <form method="POST" onsubmit="return false;">
+      <label for="text">영어 문장 입력 : </label>
+      <input type="text" name="text" id="text">
+      <label for="lang">언어</label>
+      <select name="lang" id="lang">
+        <option value="en">English</option>
+        <option value="ko">Korean</option>
+        <option value="ja">Japanese</option>
+      </select>
+      <button id="speak-btn">Speak</button>
+    </form>
+    <script>
+      const speakBtn = document.getElementById('speak-btn');
+      speakBtn.addEventListener('click', () => {
+        const text = document.getElementById('text').value;
+        const lang = document.getElementById('lang').value;
+        const url = '/api/tts';
+        const body = JSON.stringify({text, lang});
+        fetch(url, {
+          method: 'POST',
+          body: body,
+          headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => console.log(data));
+      });
+    </script>
+  </body>
+</html>

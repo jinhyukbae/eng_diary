@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="main" class="main">
+  <section id="main" class="main">
+    <div class="container">
+      <div class="sharedcard-pagetitle">
+        <h1 class="text-center my-5">Step#2 영어 일기와 그래머 체크하기</div></h1>
+  <section class="section">
+      <div class="row">
+        <div class="col-md-6">
+         <form method="POST" class="my-3" >
+          <div class="col-lg-13">
+            <div class="card-body">
+             <h3 class="my-3 pb-2">제목과 일기 작성하기</h3>
+                제목
+            <!--데이터가 공백일 때 오류 표시 + 다른 데이터는 초기화  하지 않음-->
+              <textarea class="form-control" name="subject" id="subject" rows="1" value="{{ 'form.subject()' }}"></textarea>
+            </div>
+            <div class="card-body">
+                내용
+              <textarea class="form-control" name="content" id="content" rows="6" value="{{ 'form.content()' }}"></textarea>
+            </div>
+         {% if g.user %}
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+            <button type="submit" name="save" value="save" class="btn btn-primary">저장하기</button>
+            </div>
+            <div class="col-lg-3">
+            <a class="btn btn-primary" onclick="copyTextarea()">가져오기 ◀</a>
+            <div class="col-lg-3">
+<!--            <a class = "btn btn-primary" onclick="copyTextarea2()">태그 가져오기</a>-->
+            </div>
+            </div>
+
+        </div>
+        {% else %}
+        <a class="btn btn-primary" onclick="copyTextarea()">가져오기 ◀</a>
+        <div class="col-lg-3">
+<!--        <a class = "btn btn-primary" onclick="copyTextarea2()">태그 가져오기</a>-->
+        </div>
+        {% endif %}
+           </div>
+          </div>
+
+        {% if sentence %}
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Correction</div>
+            <div class="card-body">
+              <h5 class="card-title">Before</h5>
+              <p class="card-text">{{ sentence }}</p>
+              <h5 class="card-title">After</h5>
+              <textarea class="form-control" name="sentence" id="sentence" rows="6">{{ corrected_sentence }}</textarea>
+            </div>
+            </div>
+      <div class="card">
+        {% if tags %}
+        <hr>
+        <h3>Generated Tags:</h3>
+        {% for tag in tags %}{{ tag }}{% endfor %}
+        {% endif %}
+        </div>
+       </div>
+     {% endif %}
+    </form>
+  </section>
+ </main>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+
+<script>
+function copyTextarea() {
+  var sentence = document.getElementById("sentence").value;
+  document.getElementById("content").value = sentence;
+}
+</script>
+
+  {% endblock %}

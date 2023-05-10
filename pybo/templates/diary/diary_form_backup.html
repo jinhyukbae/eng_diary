@@ -1,0 +1,242 @@
+<!-- 질문 폼 템플릿( base.html 템플릿 상속함)-->
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="main">
+  <div class="container">
+  <!-- 섹션 시작 -->
+  <section class="section">
+   <div class="row">
+    <div class="col-lg-6">
+    <!--질문 등록-->
+    <div class="card">
+     <div class="card-body">
+      <h5 class="my-3 pb-2">일기 쓰기</h5>
+      <form method="post" class="post-form my-3">
+        {{ form.csrf_token }}
+        <!--오류표시 시작-->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!--오류표시 끝-->
+        <div class="col-lg-15">
+         <div class="col-lg-13">
+          <div class="card-body">
+              <label for="subject">제목</label>
+            <!--데이터가 공백일 때 오류 표시 + 다른 데이터는 초기화 하지 않음-->
+              <input type="text" class="form-control" name="subject" id="subject" value="{{ form.subject.data or '' }}">
+          </div>
+          <div class="card-body">
+            <label for="content">내용</label>
+            <textarea class="form-control" name="content" id="content" rows="9"></textarea>
+          </div>
+         </div>
+        </div>
+        <button type="submit" class = "btn btn-primary">저장하기</button>
+      </form>
+    </div>
+   </div>
+  </div>
+ <div class="col-lg-6">
+  <div class="card-body">
+    <div class="card-title">
+      <label for="content">TTS with Transformers and Flask</label>
+    </div>
+      <form action="/generate_speech" method="POST">
+       <label for="text">Enter English text:</label>
+        <input type="text" id="text" name="text">
+       <button type="submit">Generate Speech</button>
+      </form>
+        {% if speech_text %}
+     <h2>Generated speech:</h2>
+     <p>{{ speech_text }}</p>
+     {% endif %}
+    <div class="col-lg-6">
+     <div class="card-body">
+      <div class="card-title">
+       <h4>영어일기 자연어 처리 넣을 자리</h4>
+      </div>
+         <form method="POST" action="/query">
+             <label for="input_text">Input Text:</label>
+             <input type="text" id="input_text" name="input_text">
+             <button type="submit">확인하기</button>
+         </form>
+         {% if input_text %}
+            <p>Input : {{ input_text }}</p>
+         {% endif %}
+         {% if output %}
+            <p>Output : {{ output }}</p>
+         {% endif %}
+    </div>
+   </div>
+  </section>
+
+  <section class="section">
+   <div class="row">
+    <div class="col-lg-6">
+    <!--질문 등록-->
+    <div class="card">
+     <div class="card-body">
+      <h5 class="my-3 pb-2">일기 쓰기</h5>
+      <form method="post" class="post-form my-3">
+        {{ form.csrf_token }}
+        <!--오류표시 시작-->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!--오류표시 끝-->
+        <div class="col-lg-15">
+         <div class="col-lg-13">
+          <div class="card-body">
+              <label for="subject">제목</label>
+            <!--데이터가 공백일 때 오류 표시 + 다른 데이터는 초기화 하지 않음-->
+              <input type="text" class="form-control" name="subject" id="subject" value="{{ form.subject.data or '' }}">
+          </div>
+          <div class="card-body">
+            <label for="content">내용</label>
+            <textarea class="form-control" name="content" id="content" rows="10"></textarea>
+          </div>
+         </div>
+        </div>
+        <button type="submit" class = "btn btn-primary">저장하기</button>
+      </form>
+    </div>
+   </div>
+  </div>
+ <div class="col-lg-6">
+  <iframe
+	src="https://dla9944-writing-assistant.hf.space"
+	frameborder="0"
+	width="600"
+	height="450"></iframe>
+
+   </div>
+
+  </section>
+
+  <section class="section">
+   <div class="row">
+    <div class="col-lg-6">
+    <!--질문 등록-->
+    <div class="card">
+     <div class="card-body">
+      <h5 class="my-3 pb-2">일기 쓰기</h5>
+      <form method="post" class="post-form my-3">
+        {{ form.csrf_token }}
+        <!--오류표시 시작-->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!--오류표시 끝-->
+        <div class="col-lg-15">
+         <div class="col-lg-13">
+          <div class="card-body">
+              <label for="subject">제목</label>
+            <!--데이터가 공백일 때 오류 표시 + 다른 데이터는 초기화 하지 않음-->
+              <input type="text" class="form-control" name="subject" id="subject" value="{{ form.subject.data or '' }}">
+          </div>
+          <div class="card-body">
+            <label for="content">내용</label>
+            <textarea class="form-control" name="content" id="content" rows="10"></textarea>
+          </div>
+         </div>
+        </div>
+        <button type="submit" class = "btn btn-primary">저장하기</button>
+      </form>
+    </div>
+   </div>
+  </div>
+ <div class="col-lg-6">
+     <iframe
+	src="https://satpalsr-grammar-correction.hf.space"
+	frameborder="0"
+	width="600"
+	height="450"></iframe>
+
+   </div>
+
+  </section>
+
+  <section class="section">
+   <div class="row">
+    <div class="col-lg-6">
+    <!--질문 등록-->
+    <div class="card">
+     <div class="card-body">
+      <h5 class="my-3 pb-2">일기 쓰기</h5>
+      <form method="post" class="post-form my-3">
+        {{ form.csrf_token }}
+        <!--오류표시 시작-->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+            <strong>{{ form[field].label }}</strong>
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!--오류표시 끝-->
+        <div class="col-lg-15">
+         <div class="col-lg-13">
+          <div class="card-body">
+              <label for="subject">제목</label>
+            <!--데이터가 공백일 때 오류 표시 + 다른 데이터는 초기화 하지 않음-->
+              <input type="text" class="form-control" name="subject" id="subject" value="{{ form.subject.data or '' }}">
+          </div>
+          <div class="card-body">
+            <label for="content">내용</label>
+            <textarea class="form-control" name="content" id="content" rows="10"></textarea>
+          </div>
+         </div>
+        </div>
+        <button type="submit" class = "btn btn-primary">저장하기</button>
+      </form>
+    </div>
+   </div>
+  </div>
+ <div class="col-lg-6">
+     <iframe
+	src="https://matthijs-speecht5-tts-demo.hf.space"
+	frameborder="0"
+	width="660"
+	height="460"></iframe>
+
+
+
+   </div>
+
+  </section>
+
+ </div>
+</main>
+{% endblock %}

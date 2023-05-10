@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<main id="main" class="main">
+  <!-- start container -->
+  <div class="container">
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+              <div class="d-flex justify-content-center py-4">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="pb-4">
+                     <h5 class="card-title text-center pb-0 fs-3">로그인</h5>
+                    </div>
+        <form method="post" class="row g-3 needs-validation" novalidate>
+        {{ form.csrf_token }}
+        {% include "form_errors.html" %}
+            <div class="col-12">
+              <input type="text" class="form-control" name="username" id="username"
+                value="{{ form.username.data or '' }}" required placeholder="아이디">
+              </div>
+            <div class="col-12">
+                <input type="password" class="form-control" name="password" id="password"
+                value="{{ form.password.data or '' }}" required placeholder="비밀번호">
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe" checked>
+                <label class="form-check-label" for="rememberMe">Remember me</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="login-btn w-100" onclick="location.href='{{ url_for('main.index') }}'">로그인</button>
+            </div>
+            <div class="col-12">
+              <button class="register-btn w-100" type="button" onclick="location.href='{{ url_for('auth.signup') }}'">회원가입</button>
+            </div>
+            <div class="col-12">
+<!--              <a href="#"><button class="IdFinder-btn w-50">ID찾기</button></a><a href="#"><button class="IdFinder-btn w-50">PW찾기</button></a>-->
+            </div>
+          </form>
+
+            <div class="text-center">
+              <button class="btn-social-login" style="background:#ed0c2a" onclick="location.href='{{ url_for('google.login') }}'"><i class="xi-2x xi-google" ></i></button>
+              <button class='btn-social-login' style='background:#4267B2'><i class="xi-2x xi-facebook"></i></button>
+              <button class='btn-social-login' style='background:#1FC700'><i class="xi-2x xi-naver"></i></button>
+              <button class='btn-social-login' style='background:#FFEB00'><i class="xi-2x xi-kakaotalk text-dark"></i></button>
+            </div>
+        </div>
+      </div>
+
+      <div class="credits">
+                </div>
+              </div><!-- End Bordered Tabs -->
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
+
+{% endblock %}

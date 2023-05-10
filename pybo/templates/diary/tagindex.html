@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="main">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">My App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/my_posts">My Posts</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+<div class="container">
+    <h1 class="mt-5">태그 생성</h1>
+    <form method="POST" action="/generate_tags" class="mt-5">
+        <div class="form-group">
+            <label for="input_text">문장 입력:</label>
+            <textarea class="form-control" id="input_text" name="input_text" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">태그 생성</button>
+    </form>
+
+    {% if tags %}
+        <hr>
+        <h3>Generated Tags:</h3>
+        <ul>
+            {% for tag in tags %}
+                <li>{{ tag }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <hr>
+    <h3>Search Tags:</h3>
+    <form method="GET" action="/" class="mt-5">
+        <div class="form-group">
+            <label for="search_text">태그로 일기 찾기:</label>
+            <input type="text" class="form-control" id="search_text" name="search_text" value="{{ search_text }}">
+        </div>
+        <button type="submit" class="btn btn-primary">검색</button>
+    </form>
+
+    {% if search_text and tags_list %}
+        <hr>
+        <h3>결과:</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>영어 일기</th>
+                    <th>생성 태그</th>
+                    <th>입력 날짜</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in tags_list %}
+                    <tr>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+</main>
+{% endblock %}

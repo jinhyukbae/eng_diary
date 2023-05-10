@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <main id="main" class="main">
+
+    <div class="index_pagetitle">
+      <br>
+      <h1>Hello!</h1>
+      <br/>
+      <h2>틀린 문법을 콕! 집어주는<br/>
+      영문법 학습 일기장, 콕!Tale 입니다.</h2>
+    </div><!-- End Page Title -->
+
+
+  <div id="index_button" class="index_button">
+
+    {% if g.user %}
+    <a href="{{ url_for('diary.create') }}" class = "btn btn-primary">시작하기</a>
+    {% else %}
+    <a href="{{ url_for('diary.create') }}" class = "btn btn-primary">시작하기</a>
+    <a href="{{ url_for('auth.login') }}" class="btn btn-primary">로그인</a>
+    {% endif %}
+  </div>
+
+
+  </main>
+  <!-- End #main -->
+  {% endblock %}

@@ -1,0 +1,11 @@
+<!-- 답변 목록들을 담는 answer_list 페이지-->
+
+{% if answer_list %}
+<ul>
+    {% for diary in diary_list %}
+    <li><a href="/detail/{{ diary.id }}/">{{ answer.subject }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>답변이 없습니다.</p>
+{% endif %}

@@ -1,0 +1,137 @@
+<!--헤더(네비게이션바 포함) 내용 템플릿-->
+
+<!-- ======= Header ======= -->
+  <header  class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="/" class="logo d-flex align-items-center">
+        <img src="{{ url_for('static', filename= 'assets/img/logo.png') }}" alt="">
+        <span class="d-none d-lg-block">콕! Tale.</span>
+      </a>
+
+    </div><!-- End Logo -->
+
+        <li class="nav-link">
+          <a class="nav-link" href="{{ url_for('diary.instruction') }}">
+            <span class="d-none d-lg-block" >사용설명서</span>
+          </a>
+          </li>
+          <!-- End 사용설명서 page Nav -->
+
+          <li class="nav-link">
+            <a class="nav-link" href="{{ url_for('diary.create') }}">
+              <span class="d-none d-lg-block">일기쓰기</span>
+            </a>
+          </li><!-- End 일기쓰기 Page Nav -->
+
+          <li class="nav-link">
+            <a class="nav-link" href="{{ url_for('notice.noticelist') }}">
+              <span class="d-none d-lg-block">공지사항</span>
+            </a>
+          </li><!-- End 공지사항 Page Nav -->
+
+          <li class="nav-link">
+            <a class="nav-link" href="{{ url_for('diary._list') }}">
+              <span class="d-none d-lg-block">공개일기장</span>
+            </a>
+          </li><!-- End 공개일기장 Page Nav -->
+<!--영어 일기 제외-->
+<!--          <li class="nav-link">-->
+<!--            <a class="nav-link" href="https://papago.naver.com/?sk=ko&tk=en" target="_blank">-->
+<!--              <span class="d-none d-lg-block">영어사전</span>-->
+<!--            </a>-->
+<!--          </li>-->
+
+          <nav class="header-nav ms-auto">
+          <ul class="d-flex align-items-right">
+          <li class="nav-item dropdown pe-3">
+          {% if g.user %}
+            <div class="d-flex align-items-right">
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="{{ url_for('static', filename= 'assets/img/logo.png') }}"
+                   alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">{{ g.user.username }} [로그아웃] </a>
+              </span>
+            <!-- End Profile Image Icon -->
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ g.user.username }}</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('profile.My_profile') }}"
+              onclick="window.location.href='profile-edit';">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('profile.Account_settings') }}"
+              onclick="document.getElementById('#profile-edit').click();">
+                <i class="bi bi-gear"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('auth.logout') }}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul><!-- End Profile Dropdown Items -->
+         {% else %}
+            </a>
+            <div class="d-flex align-items-right">
+              <li class="nav-link">
+                <a class="nav-link collapsed" href="{{ url_for('auth.signup') }}"><span>회원가입</span></a>
+              </li>
+              <li class="nav-link">
+                <a class="nav-link collapsed" href="{{ url_for('auth.login') }}"><span>로그인</span></a>
+              </li>
+            </div>
+            </div>
+            {% endif %}
+        </li><!-- End Profile Nav -->
+      </ul>
+    </nav><!-- End Icons Navigation -->
+<i class="bi bi-list toggle-sidebar-btn" id="sidebarclick"></i>
+  </header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('notice.noticelist') }}">
+          <span>공지사항</span>
+        </a>
+      </li><!-- End 일기쓰기 Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('diary.create') }}">
+          <span>일기쓰기</span>
+        </a>
+      </li><!-- End 일기쓰기 Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('diary.instruction') }}">
+          <span>사용설명서</span>
+        </a>
+      </li><!-- End 사용설명서 Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('diary._list') }}">
+          <span>공개일기장</span>
+        </a>
+      </li><!-- End 공개일기장 Nav -->
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link collapsed" href="https://papago.naver.com/?sk=ko&tk=en" target="_blank">-->
+<!--          <span>영어사전</span>-->
+<!--        </a>-->
+<!--      </li>&lt;!&ndash; End 영어사전 Nav &ndash;&gt;-->
+    </ul>
+  </aside><!-- End Sidebar-->

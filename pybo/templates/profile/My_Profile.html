@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>프로필 확인</h1>
+    </div><!-- End Page Title -->
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                <h2 style="color:blue">안녕하세요! {{ g.user.name }}님!</h2><br>
+              <h3>오늘도 영어 공부하기 좋은 하루입니다</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-8">
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+                <li class="nav-item">
+                  <button class="nav-link active" id="overview" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2">
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                  <h5 class="card-title">Profile Details</h5>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">아이디</div>
+                    <div class="col-lg-9 col-md-8">{{ g.user.username }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">비밀번호</div>
+                    <div class="col-lg-9 col-md-9" id="password">{{ g.user.password }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">닉네임</div>
+                    <div class="col-lg-9 col-md-8">{{ g.user.nickname }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">이메일주소</div>
+                    <div class="col-lg-9 col-md-8">{{ g.user.email }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">이름</div>
+                    <div class="col-lg-9 col-md-8">{{ g.user.name }}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">생년월일</div>
+                    <div class="col-lg-9 col-md-8">{{ g.user.dayofbirth }}</div>
+                  </div>
+                </div>
+              </div><!-- End Bordered Tabs -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main><!-- End #main -->
+  <!-- End #main -->
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+const page_elements = document.getElementsByClassName("page-link");
+Array.from(page_elements).forEach(function(element) {
+  element.addEventListener('click', function() {
+    document.getElementById('page').value = this.dataset.page;
+    document.getElementById('searchForm').submit();
+  });
+});
+const btn_search = document.getElementById("btn_search");
+btn_search.addEventListener('click', function() {
+  document.getElementById('kw').value = document.getElementById('search_kw').value;
+  document.getElementById('page').value = 1;
+  document.getElementById('searchForm').submit();
+});
+</script>
+<script>
+var password = document.getElementById('password');
+password.innerHTML = "*".repeat(6);
+</script>
+{% endblock %}
